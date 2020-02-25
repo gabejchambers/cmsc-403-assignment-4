@@ -204,44 +204,44 @@ void setLexeme(struct lexics *aLex, int *numLex, char lexeme[]){
 void tokenSetter(struct lexics *aLex, int *numLex) {
   int lexCount = 0;
   for(; lexCount<*numLex; lexCount++){
-    if(strcmp(aLex[lexCount].lexeme, "LEFT_PARENTHESIS")==0){
+    if(strcmp(aLex[lexCount].lexeme, "(")==0){
       aLex[lexCount].token = 3;
     }
-    else if(strcmp(aLex[lexCount].lexeme, "RIGHT_PARENTHESIS")==0){
+    else if(strcmp(aLex[lexCount].lexeme, ")")==0){
       aLex[lexCount].token = 4;
     }
-    else if(strcmp(aLex[lexCount].lexeme, "LEFT_BRACKET")==0){
+    else if(strcmp(aLex[lexCount].lexeme, "{")==0){
       aLex[lexCount].token = 8;
     }
-    else if(strcmp(aLex[lexCount].lexeme, "RIGHT_BRACKET")==0){
+    else if(strcmp(aLex[lexCount].lexeme, "}")==0){
       aLex[lexCount].token = 9;
     }
-    else if(strcmp(aLex[lexCount].lexeme, "WHILE_KEYWORD")==0){
+    else if(strcmp(aLex[lexCount].lexeme, "while")==0){
       aLex[lexCount].token = 12;
     }
-    else if(strcmp(aLex[lexCount].lexeme, "RETURN_KEYWORD")==0){
+    else if(strcmp(aLex[lexCount].lexeme, "return")==0){
       aLex[lexCount].token = 13;
     }
-    else if(strcmp(aLex[lexCount].lexeme, "EQUAL")==0){
+    else if(strcmp(aLex[lexCount].lexeme, "=")==0){
       aLex[lexCount].token = 1;
     }
-    else if(strcmp(aLex[lexCount].lexeme, "COMMA")==0){
+    else if(strcmp(aLex[lexCount].lexeme, ",")==0){
       aLex[lexCount].token = 2;
     }
-    else if(strcmp(aLex[lexCount].lexeme, "EOL")==0){
+    else if(strcmp(aLex[lexCount].lexeme, ";")==0){
       aLex[lexCount].token = 7;
     }
-    else if(strcmp(aLex[lexCount].lexeme, "VARTYPE")==0){
+    else if(strcmp(aLex[lexCount].lexeme, "int")==0 || strcmp(aLex[lexCount].lexeme, "void")==0){
       aLex[lexCount].token = 17;
     }
-    else if(strcmp(aLex[lexCount].lexeme, "IDENTIFIER")==0){
-      aLex[lexCount].token = 55;
-    }
-    else if(strcmp(aLex[lexCount].lexeme, "BINOP")==0){
+    else if(strcmp(aLex[lexCount].lexeme, "+")==0 || strcmp(aLex[lexCount].lexeme, "*")==0 || strcmp(aLex[lexCount].lexeme, "!=")==0 || strcmp(aLex[lexCount].lexeme, "==")==0 || strcmp(aLex[lexCount].lexeme, "%")==0){
       aLex[lexCount].token = 22;
     }
-    else if(strcmp(aLex[lexCount].lexeme, "NUMBER")==0){
+    else if(aLex[lexCount].lexeme[0] >=48 && aLex[lexCount].lexeme[0] <=57){
       aLex[lexCount].token = 51;
+    }
+    else{ //identifier
+      aLex[lexCount].token = 55;
     }
     //TESTING:
     //prints all structs
