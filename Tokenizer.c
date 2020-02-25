@@ -60,25 +60,34 @@ _Bool tokenize(struct lexics *aLex, int *numLex, FILE *inf){
 
       //12 --> WHILE_KEYWORD 		--> while
       if(inchr=='w'&&inStr[isIndx+1]=='h'&&inStr[isIndx+2]=='i'&&inStr[isIndx+3]=='l'&&inStr[isIndx+4]=='e'){
-        setLexeme(aLex, numLex, "WHILE_KEYWORD");
+        setLexeme(aLex, numLex, "while");
         skip=4;
       }
       //13 --> RETURN_KEYWORD 		--> return
       else if(inchr=='r'&&inStr[isIndx+1]=='e'&&inStr[isIndx+2]=='t'&&inStr[isIndx+3]=='u'&&inStr[isIndx+4]=='r'&&inStr[isIndx+5]=='n'){
-        setLexeme(aLex, numLex, "RETURN_KEYWORD");
+        setLexeme(aLex, numLex, "return");
         skip=5;
       }
       //22 --> BINOP 				-->  != | ==  (doubles)
       else if((inchr=='!'&&inStr[isIndx+1]=='=') || (inchr=='='&&inStr[isIndx+1]=='=')){
-        setLexeme(aLex, numLex, "BINOP");
+        if(inchr == '!'){
+          char* tempstr = "!=";
+          setLexeme(aLex, numLex, tempstr);
+        } else {
+          char* tempstr = "==";
+          setLexeme(aLex, numLex, tempstr);
+        }
         skip=1;
       }
       //17 --> VARTYPE 				--> int | void
       else if((inchr=='i'&&inStr[isIndx+1]=='n'&&inStr[isIndx+2]=='t') || (inchr=='v'&&inStr[isIndx+1]=='o'&&inStr[isIndx+2]=='i'&&inStr[isIndx+3]=='d')){
-        setLexeme(aLex, numLex, "VARTYPE");
         if(inchr=='i'){
+          char* tempstr = "int";
+          setLexeme(aLex, numLex, tempstr);
           skip=2;
         } else {
+          char* tempstr = "void";
+          setLexeme(aLex, numLex, tempstr);
           skip=3;
         }
       }
@@ -86,31 +95,38 @@ _Bool tokenize(struct lexics *aLex, int *numLex, FILE *inf){
 
       //03 --> LEFT_PARENTHESIS 	--> (
       else if(inchr=='('){
-        setLexeme(aLex, numLex, "LEFT_PARENTHESIS");
+        char* tempstr = &inchr;
+        setLexeme(aLex, numLex, tempstr);
       }
       //04 --> RIGHT_PARENTHESIS 	--> )
       else if(inchr==')'){
-        setLexeme(aLex, numLex, "RIGHT_PARENTHESIS");
+        char* tempstr = &inchr;
+        setLexeme(aLex, numLex, tempstr);
       }
       // 08 --> LEFT_BRACKET 		--> {
       else if(inchr=='{'){
-        setLexeme(aLex, numLex, "LEFT_BRACKET");
+        char* tempstr = &inchr;
+        setLexeme(aLex, numLex, tempstr);
       }
       //09 --> RIGHT_BRACKET 		--> }
       else if(inchr=='}'){
-        setLexeme(aLex, numLex, "RIGHT_BRACKET");
+        char* tempstr = &inchr;
+        setLexeme(aLex, numLex, tempstr);
       }
       //01 --> EQUAL 		 		--> =
       else if(inchr=='='){
-        setLexeme(aLex, numLex, "EQUAL");
+        char* tempstr = &inchr;
+        setLexeme(aLex, numLex, tempstr);
       }
       //02 --> COMMA				--> ,
       else if(inchr==','){
-        setLexeme(aLex, numLex, "COMMA");
+        char* tempstr = &inchr;
+        setLexeme(aLex, numLex, tempstr);
       }
       //07 --> EOL 					--> ;
       else if(inchr==';'){
-        setLexeme(aLex, numLex, "EOL");
+        char* tempstr = &inchr;
+        setLexeme(aLex, numLex, tempstr);
       }
       //22 --> BINOP 				--> + | * | %  (singles)
       else if(inchr=='+'||inchr=='*'||inchr=='%'){
@@ -155,6 +171,7 @@ void setLexeme(struct lexics *aLex, int *numLex, char lexeme[]){
 
 
 
+//2/25: need check "(", not "LEFT_PARENTHESIS" etc
 void tokenSetter(struct lexics *aLex, int *numLex) {
   int lexCount = 0;
   for(; lexCount<*numLex; lexCount++){
