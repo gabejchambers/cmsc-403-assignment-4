@@ -15,3 +15,5 @@ _Bool tokenize(struct lexics *aLex, int *numLex, FILE *inf);
 _Bool readIn(FILE *inf, char* inStrP);
 
 void tokenSetter(struct lexics *aLex, int *numLex);
+
+void clearINH(char INH[]);

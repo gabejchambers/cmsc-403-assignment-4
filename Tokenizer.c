@@ -21,19 +21,21 @@ _Bool tokenize(struct lexics *aLex, int *numLex, FILE *inf){
   int skip = 0;
   _Bool RTN = TRUE;
   char inStr[1024*256];//1024 lexemes of length 256 as given maxs
-
+  char identNumHolder[256];//holds value of idents and nums until theyre complete
+  int curINH = 0;//stores value of where in identNumHolder array to add next char
   RTN = readIn(inf, inStr);
-  //puts(inStr);//TEST
-
   int isIndx = 0;//index of inStr we are on (which character of input file)
+
+
   for(; isIndx<1024*256; isIndx++){
     char inchr = inStr[isIndx];//the char we are currently on
 
+
     if(inchr == '\0'){
       if(identifier){//in case "in middle" of reading a num or ident we simply add it to the struct array.
-        setLexeme(aLex, numLex, "IDENTIFIER");
+        setLexeme(aLex, numLex, identNumHolder);
       } else if (number){
-        setLexeme(aLex, numLex, "NUMBER");
+        setLexeme(aLex, numLex, identNumHolder);
       }
       break;//exit loop once we hit an empyty char in the inputString
     }
@@ -42,16 +44,27 @@ _Bool tokenize(struct lexics *aLex, int *numLex, FILE *inf){
     if(identifier){
       //if char is NOT an alphanumeric ![(num)|(cap)|(low)]:
       if(!((inchr>=48 && inchr<=57) || (inchr>=65 && inchr<=90) || (inchr>=97 && inchr<=122))){
-        setLexeme(aLex, numLex, "IDENTIFIER");
+        setLexeme(aLex, numLex, identNumHolder);
+        curINH = 0;
         identifier = FALSE;
+        clearINH(identNumHolder);
+      }
+      else {//if it is an alphanumeric:
+        identNumHolder[curINH] = inchr;
+        curINH = curINH+1;
       }
     }//end identifier
     //if currently working through a NUMBER lexeme:
     if(number){
-      //if char is NOT an alphanumeric !(num):
+      //if char is NOT an numeric !(num):
       if(!(inchr>=48 && inchr<=57)){
-        setLexeme(aLex, numLex, "NUMBER");
+        setLexeme(aLex, numLex, identNumHolder);
+        curINH = 0;
         number = FALSE;
+        clearINH(identNumHolder);
+      } else {//if it is a number:
+        identNumHolder[curINH] = inchr;
+        curINH = curINH+1;
       }
     }//end number
     //if we aren't skipping or working through a number or identifier:
@@ -135,16 +148,24 @@ _Bool tokenize(struct lexics *aLex, int *numLex, FILE *inf){
       }
 
 
+
       //55 --> IDENTIFIER 			--> [a-zA-Z][a-zA-Z0-9]*
       else if((inchr>=65 && inchr<=90) || (inchr>=97 && inchr<=122)){
+        identNumHolder[curINH] = inchr;
+        curINH = curINH+1;
         identifier = TRUE;
       }
       //51 --> NUMBER 				--> [0-9][0-9]*
       else if(inchr>=48 && inchr<=57){
+        identNumHolder[curINH] = inchr;
+        curINH = curINH+1;
         number = TRUE;
       }
       //dont need specifically handle whitespace/\n, they just wont fit any of the elseifs above
     }//end if(skip)
+
+
+
     else if(skip != 0){
       skip = skip-1;//yes i am in fact baby
     }//end if(skip!=0)
@@ -161,6 +182,14 @@ _Bool readIn(FILE *inf, char inStrP[]){
     strcat(inStrP, temp);
   }
    return TRUE;
+}
+
+
+void clearINH(char INH[]){
+  int i=0;
+  for(;i<256;i++){
+    INH[i] = '\0';
+  }
 }
 
 
