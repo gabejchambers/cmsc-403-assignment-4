@@ -4,105 +4,7 @@
 //fgets(input, MY_CHAR_MAX, inf) != NULL
 //https://www.tutorialspoint.com/c_standard_library/c_function_fgets.htm
 
-/*
-EX working code with output:
-#include <stdio.h>
-#include <string.h>
 
-struct lexics{
-	int token;
-	char lexeme[256];
-};
-
-int main()
-{
-    struct lexics allLexics[1024];
-
-    allLexics[0].token = 11;
-    strcpy(allLexics[0].lexeme, "first");
-    allLexics[1].token = 22;
-    strcpy(allLexics[1].lexeme, "second");
-    allLexics[2].token = 31;
-    strcpy(allLexics[2].lexeme, "third");
-    allLexics[3].token = 44;
-    strcpy(allLexics[3].lexeme, "fourth");
-
-    int i = 0;
-    for(i=0; i<4;i++){
-        printf("Lexics: %d token: %d\n", i, allLexics[i].token);
-        printf("Lexics: %d lexeme: %s\n", i, allLexics[i].lexeme);
-    }
-    return 0;
-}
-
-OP:
-Lexics: 0 token: 11
-Lexics: 0 lexeme: first
-Lexics: 1 token: 22
-Lexics: 1 lexeme: second
-Lexics: 2 token: 31
-Lexics: 2 lexeme: third
-Lexics: 3 token: 44
-Lexics: 3 lexeme: fourth
-*/
-
-//###################################################################################
-
-/*setLexeme code:
-#include <stdio.h>
-#include <string.h>
-
-struct lexics{
-	int token;
-	char lexeme[256];
-};
-
-void setLexeme(struct lexics* aLex, int* numLex, char lexeme[]){
-    strcpy(aLex[*numLex].lexeme, lexeme);
-    *numLex = *numLex+1;
-}
-
-
-void tokenizer(struct lexics *aLex, int *numLex){
-    int i=0;
-    for(;i<7;i++){
-        setLexeme(aLex, numLex, "LEFT_PARENTH");
-    }
-}
-
-
-int main()
-{
-    struct lexics allLexics[1024];
-    int numLex = 0;
-    tokenizer(allLexics, &numLex);
-    printf("%d\n",numLex);
-    int i=0;
-    for(;i<numLex;i++){
-        printf("%s\n",allLexics[i].lexeme);
-    }
-    return 0;
-}
-*/
-
-/*compare strings code working:
-#include <stdio.h>
-#include <string.h>
-
-int main()
-{
-    printf("Hello World\n");
-    char word[100];
-    strcpy(word, "what up");
-    char w2[20];
-    strcpy(w2, "what up");
-    if(strcmp(word, w2) == 0){
-        printf("bet\n");
-    }
-    printf("%s\n",word);
-    return 0;
-}
-*/
 
 //careful with = case vs == case. need == checked higher priority than =
 _Bool tokenizer(struct lexics *aLex, int *numLex, FILE *inf){
@@ -212,7 +114,8 @@ _Bool tokenize(struct lexics *aLex, int *numLex, FILE *inf){
       }
       //22 --> BINOP 				--> + | * | %  (singles)
       else if(inchr=='+'||inchr=='*'||inchr=='%'){
-        setLexeme(aLex, numLex, "BINOP");
+        char* tempstr = &inchr;
+        setLexeme(aLex, numLex, tempstr);
       }
 
 
