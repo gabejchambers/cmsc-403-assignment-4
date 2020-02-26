@@ -1,10 +1,9 @@
 #include "Parser.h"
 
-//need to check if we are outside the range of the list array when i move index.
-//if so, need to stop the calculations and return true or false based off what has been read.
-//REEEEE:
-//actually i dont think above is true because the random garbage we will be looking at in
-//memory will not happen to be the end of a grammatically corret grammar
+
+
+//FUNCTION COMMENTS IN HEADER FILE
+
 
 
 _Bool parser(struct lexics *someLexics, int numberOfLexics){
@@ -21,8 +20,8 @@ _Bool funct(struct lexics* someLexics, int numberOfLexics, int* pCurrentLex){
     return FALSE;
   }
   if(*pCurrentLex != numberOfLexics){
-    printf("currentLex: %d\n",*pCurrentLex+1);
-    printf("numberOfLexics: %d\n",numberOfLexics);
+    //printf("currentLex: %d\n",*pCurrentLex+1);
+    //printf("numberOfLexics: %d\n",numberOfLexics);
     return FALSE;
   }
   return TRUE;

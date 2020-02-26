@@ -6,6 +6,9 @@
 
 
 
+//FUNCTION COMMENTS IN HEADER FILE
+
+
 //careful with = case vs == case. need == checked higher priority than =
 _Bool tokenizer(struct lexics *aLex, int *numLex, FILE *inf){
   _Bool RTN = TRUE;
@@ -200,7 +203,7 @@ void setLexeme(struct lexics *aLex, int *numLex, char lexeme[]){
 
 
 
-//2/25: need check "(", not "LEFT_PARENTHESIS" etc
+
 void tokenSetter(struct lexics *aLex, int *numLex) {
   int lexCount = 0;
   for(; lexCount<*numLex; lexCount++){
